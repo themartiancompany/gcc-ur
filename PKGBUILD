@@ -258,7 +258,8 @@ package_gcc() {
   make -C $CHOST/32/libsanitizer/asan DESTDIR="$pkgdir" install-nodist_toolexeclibHEADERS
 
   make -C gcc DESTDIR="$pkgdir" install-man install-info
-  rm "$pkgdir"/usr/share/man/man1/{gccgo,gfortran,lto-dump,gdc,gm2}.1
+  rm "$pkgdir"/usr/share/man/man1/{gccgo,gfortran,lto-dump,gdc,gm2,gcobol}.1
+  rm "$pkgdir"/usr/share/man/man3/gcobol-io.3
   rm "$pkgdir"/usr/share/info/{gccgo,gfortran,gnat-style,gnat_rm,gnat_ugn,gdc,m2}.info
 
   make -C libcpp DESTDIR="$pkgdir" install
