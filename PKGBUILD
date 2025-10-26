@@ -227,15 +227,18 @@ package_gcc() {
   make -C $CHOST/libstdc++-v3/include DESTDIR="$pkgdir" install
   make -C $CHOST/libstdc++-v3/libsupc++ DESTDIR="$pkgdir" install
   make -C $CHOST/libstdc++-v3/python DESTDIR="$pkgdir" install
+  make -C $CHOST/libatomic DESTDIR="$pkgdir" install
   make -C $CHOST/32/libstdc++-v3/src DESTDIR="$pkgdir" install
   make -C $CHOST/32/libstdc++-v3/include DESTDIR="$pkgdir" install
   make -C $CHOST/32/libstdc++-v3/libsupc++ DESTDIR="$pkgdir" install
+  make -C $CHOST/32/libatomic DESTDIR="$pkgdir" install
 
   make DESTDIR="$pkgdir" install-libcc1
   install -d "$pkgdir/usr/share/gdb/auto-load/usr/lib"
   mv "$pkgdir"/usr/lib/libstdc++.so.6.*-gdb.py \
     "$pkgdir/usr/share/gdb/auto-load/usr/lib/"
   rm "$pkgdir"/usr/lib{,32}/libstdc++.so*
+  rm "$pkgdir"/usr/lib{,32}/libatomic.so*
 
   make DESTDIR="$pkgdir" install-fixincludes
   make -C gcc DESTDIR="$pkgdir" install-mkheaders
