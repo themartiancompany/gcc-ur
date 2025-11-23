@@ -171,6 +171,7 @@ package_gcc-libs() {
   rm -f "$pkgdir/$_libdir/libgcc_eh.a"
 
   for lib in libatomic \
+             libgcobol \
              libgfortran \
              libgo \
              libgomp \
@@ -499,6 +500,8 @@ package_gcc-gcobol() {
   make -C gcc DESTDIR="$pkgdir" cobol.install-{common,man,info}
 
   install -Dm755 gcc/gcobol "$pkgdir"/usr/bin/gcobol
+
+  install -Dm644 $CHOST/libgcobol/libgcobol.spec "$pkgdir"/$_libdir/
 
   # Install Runtime Library Exception
   install -d "$pkgdir/usr/share/licenses/$pkgname/"
