@@ -7,7 +7,27 @@
 # toolchain build order: linux-api-headers->glibc->binutils->gcc->glibc->binutils->gcc
 # NOTE: libtool requires rebuilt with each new gcc version
 
-pkgname=(gcc gcc-libs lib32-gcc-libs gcc-ada gcc-d gcc-fortran gcc-go gcc-m2 gcc-objc gcc-rust gcc-gcobol lto-dump libgccjit)
+pkgname=(
+  gcc
+  gcc-ada
+  gcc-d
+  gcc-fortran
+  gcc-gcobol
+  gcc-go
+  gcc-libs
+  gcc-libs-d
+  gcc-libs-gcobol
+  gcc-libs-gfortran
+  gcc-libs-go
+  gcc-libs-libstdc++
+  gcc-libs-objc
+  gcc-m2
+  gcc-objc
+  gcc-rust
+  lib32-gcc-libs
+  libgccjit
+  lto-dump
+)
 pkgver=15.2.1+r447+g6a64f6c3ebb8
 _commit=6a64f6c3ebb88a30ee1f36803c48573731018e0c
 pkgrel=1
@@ -162,33 +182,29 @@ package_gcc-libs() {
   pkgdesc='Runtime libraries shipped by GCC'
   depends=('glibc>=2.27')
   options=(!emptydirs !strip)
-  provides=($pkgname-multilib libgo.so libgfortran.so libgphobos.so
-            libubsan.so libasan.so libtsan.so liblsan.so)
-  replaces=($pkgname-multilib libgphobos)
+  provides=(
+    $pkgname-multilib
+    libatomic.so
+    libgomp.so
+    libubsan.so
+    libasan.so
+    libtsan.so
+    libitm.so
+    liblsan.so
+  )
 
   cd gcc-build
   make -C $CHOST/libgcc DESTDIR="$pkgdir" install-shared
   rm -f "$pkgdir/$_libdir/libgcc_eh.a"
 
   for lib in libatomic \
-             libgcobol \
-             libgfortran \
-             libgo \
              libgomp \
              libitm \
              libquadmath \
              libsanitizer/{a,l,ub,t}san \
-             libstdc++-v3/src \
              libvtv; do
     make -C $CHOST/$lib DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
   done
-
-  make -C $CHOST/libobjc DESTDIR="$pkgdir" install-libs
-  make -C $CHOST/libstdc++-v3/po DESTDIR="$pkgdir" install
-
-  make -C $CHOST/libphobos DESTDIR="$pkgdir" install
-  rm -rf "$pkgdir"/$_libdir/include/d/
-  rm -f "$pkgdir"/usr/lib/libgphobos.spec
 
   for lib in libgomp \
              libitm \
@@ -204,6 +220,108 @@ package_gcc-libs() {
     "$pkgdir/usr/share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION"
 }
 
+package_gcc-libs-d() {
+  pkgdesc='D runtime libraries shipped by GCC'
+  depends=('glibc>=2.27')
+  provides=(
+    libgphobos.so
+  )
+  replaces=(
+    libgphobos
+  )
+
+  cd gcc-build
+
+  make -C $CHOST/libphobos DESTDIR="$pkgdir" install
+  rm -rf "$pkgdir"/$_libdir/include/d/
+  rm -f "$pkgdir"/usr/lib/libgphobos.spec
+
+  # remove files provided by lib32-gcc-libs
+  rm -rf "$pkgdir"/usr/lib32/
+
+  # Install Runtime Library Exception
+  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
+    "$pkgdir/usr/share/licenses/gcc-libs-d/RUNTIME.LIBRARY.EXCEPTION"
+}
+
+package_gcc-libs-gcobol() {
+  pkgdesc='Cobol runtime libraries shipped by GCC'
+  depends=('glibc>=2.27')
+  provides=(
+    libgcobol.so
+  )
+
+  cd gcc-build
+  make -C $CHOST/libgcobol DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
+
+  # Install Runtime Library Exception
+  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
+    "$pkgdir/usr/share/licenses/gcc-libs-gcobol/RUNTIME.LIBRARY.EXCEPTION"
+}
+
+package_gcc-libs-gfortran() {
+  pkgdesc='Runtime libraries shipped by GCC'
+  depends=('glibc>=2.27')
+  provides=(
+    libgfortran.so
+  )
+
+  cd gcc-build
+  make -C $CHOST/libgfortran DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
+
+  # Install Runtime Library Exception
+  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
+    "$pkgdir/usr/share/licenses/gcc-libs-gfortran/RUNTIME.LIBRARY.EXCEPTION"
+}
+
+package_gcc-libs-go() {
+  pkgdesc='Go runtime libraries shipped by GCC'
+  depends=('glibc>=2.27')
+  provides=(
+    libgo.so
+  )
+
+  cd gcc-build
+  make -C $CHOST/libgo DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
+
+  # Install Runtime Library Exception
+  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
+    "$pkgdir/usr/share/licenses/gcc-libs/RUNTIME.LIBRARY.EXCEPTION"
+}
+
+package_gcc-libs-objc() {
+  pkgdesc='Runtime libraries shipped by GCC'
+  depends=('glibc>=2.27')
+  provides=(
+    libobjc.so
+  )
+
+  cd gcc-build
+  make -C $CHOST/libobjc DESTDIR="$pkgdir" install-libs
+
+  # remove files provided by lib32-gcc-libs
+  rm -rf "$pkgdir"/usr/lib32/
+
+  # Install Runtime Library Exception
+  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
+    "$pkgdir/usr/share/licenses/gcc-libs-objc/RUNTIME.LIBRARY.EXCEPTION"
+}
+
+package_gcc-libs-libstdc++ () {
+  pkgdesc='Runtime libraries shipped by GCC'
+  depends=('glibc>=2.27')
+  provides=(
+    libstdc++.so
+  )
+
+  cd gcc-build
+  make -C $CHOST/libstdc++-v3/src DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
+  make -C $CHOST/libstdc++-v3/po DESTDIR="$pkgdir" install
+
+  # Install Runtime Library Exception
+  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
+    "$pkgdir/usr/share/licenses/gcc-libs-libstdc++/RUNTIME.LIBRARY.EXCEPTION"
+}
 package_gcc() {
   pkgdesc="The GNU Compiler Collection - C and C++ frontends"
   depends=("gcc-libs=$pkgver-$pkgrel" 'binutils>=2.28' libmpc zstd libisl.so)
@@ -300,7 +418,7 @@ package_gcc() {
 
 package_gcc-fortran() {
   pkgdesc='Fortran front-end for GCC'
-  depends=("gcc=$pkgver-$pkgrel" libisl.so)
+  depends=("gcc=$pkgver-$pkgrel" gcc-libs-gfortran libisl.so)
   provides=($pkgname-multilib)
   replaces=($pkgname-multilib)
 
@@ -323,7 +441,7 @@ package_gcc-fortran() {
 
 package_gcc-objc() {
   pkgdesc='Objective-C front-end for GCC'
-  depends=("gcc=$pkgver-$pkgrel" libisl.so)
+  depends=("gcc=$pkgver-$pkgrel" gcc-libs-objc libisl.so)
   provides=($pkgname-multilib)
   replaces=($pkgname-multilib)
 
@@ -379,7 +497,7 @@ package_gcc-ada() {
 
 package_gcc-go() {
   pkgdesc='Go front-end for GCC'
-  depends=("gcc=$pkgver-$pkgrel" libisl.so)
+  depends=("gcc=$pkgver-$pkgrel" gcc-libs-go libisl.so)
   provides=("go=1.17" $pkgname-multilib)
   replaces=($pkgname-multilib)
   conflicts=(go)
@@ -437,7 +555,7 @@ package_lib32-gcc-libs() {
 
 package_gcc-d() {
   pkgdesc="D frontend for GCC"
-  depends=("gcc=$pkgver-$pkgrel" libisl.so)
+  depends=("gcc=$pkgver-$pkgrel" gcc-libs-d libisl.so)
   provides=(gdc)
   replaces=(gdc)
   options=(staticlibs)
@@ -494,7 +612,7 @@ package_gcc-rust() {
 
 package_gcc-gcobol() {
   pkgdesc="Cobol frontend for GCC"
-  depends=("gcc=$pkgver-$pkgrel" libisl.so)
+  depends=("gcc=$pkgver-$pkgrel" gcc-libs-gcobol libisl.so)
 
   cd gcc-build
   make -C gcc DESTDIR="$pkgdir" cobol.install-{common,man,info}
