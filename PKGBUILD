@@ -17,7 +17,7 @@ pkgname=(
   gcc-libs
   gcc-libs-d
   gcc-libs-gcobol
-  gcc-libs-gfortran
+  gcc-libs-fortran
   gcc-libs-go
   gcc-libs-libstdc++
   gcc-libs-objc
@@ -272,7 +272,7 @@ package_gcc-libs-gcobol() {
     "$pkgdir/usr/share/licenses/gcc-libs-gcobol/RUNTIME.LIBRARY.EXCEPTION"
 }
 
-package_gcc-libs-gfortran() {
+package_gcc-libs-fortran() {
   pkgdesc='Runtime libraries shipped by GCC'
   depends=(
     'glibc>=2.27'
@@ -286,7 +286,7 @@ package_gcc-libs-gfortran() {
 
   # Install Runtime Library Exception
   install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/gcc-libs-gfortran/RUNTIME.LIBRARY.EXCEPTION"
+    "$pkgdir/usr/share/licenses/gcc-libs-fortran/RUNTIME.LIBRARY.EXCEPTION"
 }
 
 package_gcc-libs-go() {
