@@ -180,7 +180,10 @@ check() {
 
 package_gcc-libs() {
   pkgdesc='Runtime libraries shipped by GCC'
-  depends=('glibc>=2.27')
+  depends=(
+    'glibc>=2.27'
+    gcc-libs-libstdc++
+  )
   options=(!emptydirs !strip)
   provides=(
     $pkgname-multilib
