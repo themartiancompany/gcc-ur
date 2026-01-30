@@ -189,7 +189,6 @@ package_gcc-libs() {
   )
   options=(
     !emptydirs
-    !strip
   )
   provides=(
     $pkgname-multilib
@@ -603,7 +602,6 @@ package_lib32-gcc-libs() {
   )
   options=(
     !emptydirs
-    !strip
   )
 
   cd gcc-build
