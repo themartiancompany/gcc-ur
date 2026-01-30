@@ -56,9 +56,12 @@ checkdepends=(
   python-pytest
   tcl
 )
-options=(!emptydirs !lto)
+options=(
+  !emptydirs
+  !lto
+)
 _libdir=usr/lib/gcc/$CHOST/${pkgver%%+*}
-source=(git+https://sourceware.org/git/gcc.git#commit=${_commit}
+source=(git+https://sourceware.org/git/gcc.git#commit=$_commit
         c89 c99
         gcc-ada-repro.patch
 )
@@ -149,7 +152,7 @@ build() {
 
   # Build libgccjit separately, to avoid building all compilers with --enable-host-shared
   # which brings a performance penalty
-  cd "${srcdir}"/libgccjit-build
+  cd "$srcdir"/libgccjit-build
 
   "$srcdir/gcc/configure" \
     --enable-languages=jit \
@@ -184,7 +187,10 @@ package_gcc-libs() {
     'glibc>=2.27'
     gcc-libs-libstdc++
   )
-  options=(!emptydirs !strip)
+  options=(
+    !emptydirs
+    !strip
+  )
   provides=(
     $pkgname-multilib
     libatomic.so
@@ -225,7 +231,9 @@ package_gcc-libs() {
 
 package_gcc-libs-d() {
   pkgdesc='D runtime libraries shipped by GCC'
-  depends=('glibc>=2.27')
+  depends=(
+    'glibc>=2.27'
+  )
   provides=(
     libgphobos.so
   )
@@ -249,7 +257,9 @@ package_gcc-libs-d() {
 
 package_gcc-libs-gcobol() {
   pkgdesc='Cobol runtime libraries shipped by GCC'
-  depends=('glibc>=2.27')
+  depends=(
+    'glibc>=2.27'
+  )
   provides=(
     libgcobol.so
   )
@@ -264,7 +274,9 @@ package_gcc-libs-gcobol() {
 
 package_gcc-libs-gfortran() {
   pkgdesc='Runtime libraries shipped by GCC'
-  depends=('glibc>=2.27')
+  depends=(
+    'glibc>=2.27'
+  )
   provides=(
     libgfortran.so
   )
@@ -279,7 +291,9 @@ package_gcc-libs-gfortran() {
 
 package_gcc-libs-go() {
   pkgdesc='Go runtime libraries shipped by GCC'
-  depends=('glibc>=2.27')
+  depends=(
+    'glibc>=2.27'
+  )
   provides=(
     libgo.so
   )
@@ -294,7 +308,9 @@ package_gcc-libs-go() {
 
 package_gcc-libs-objc() {
   pkgdesc='Runtime libraries shipped by GCC'
-  depends=('glibc>=2.27')
+  depends=(
+    'glibc>=2.27'
+  )
   provides=(
     libobjc.so
   )
@@ -312,7 +328,9 @@ package_gcc-libs-objc() {
 
 package_gcc-libs-libstdc++ () {
   pkgdesc='Runtime libraries shipped by GCC'
-  depends=('glibc>=2.27')
+  depends=(
+    'glibc>=2.27'
+  )
   provides=(
     libstdc++.so
   )
@@ -327,11 +345,26 @@ package_gcc-libs-libstdc++ () {
 }
 package_gcc() {
   pkgdesc="The GNU Compiler Collection - C and C++ frontends"
-  depends=("gcc-libs=$pkgver-$pkgrel" 'binutils>=2.28' libmpc zstd libisl.so)
-  optdepends=('lib32-gcc-libs: for generating code for 32-bit ABI')
-  provides=($pkgname-multilib)
-  replaces=($pkgname-multilib)
-  options=(!emptydirs staticlibs)
+  depends=(
+    "gcc-libs=$pkgver-$pkgrel"
+    'binutils>=2.28'
+    libmpc
+    zstd
+    libisl.so
+  )
+  optdepends=(
+    'lib32-gcc-libs: for generating code for 32-bit ABI'
+  )
+  provides=(
+    $pkgname-multilib
+  )
+  replaces=(
+    $pkgname-multilib
+  )
+  options=(
+    !emptydirs
+    staticlibs
+  )
 
   cd gcc-build
 
@@ -339,7 +372,7 @@ package_gcc() {
     c++.install-common install-headers install-plugin install-lto-wrapper
 
   install -m755 -t "$pkgdir/usr/bin/" gcc/gcov{,-tool}
-  install -m755 -t "$pkgdir/${_libdir}/" gcc/{cc1,cc1plus,collect2,lto1}
+  install -m755 -t "$pkgdir/$_libdir/" gcc/{cc1,cc1plus,collect2,lto1}
 
   make -C $CHOST/libgcc DESTDIR="$pkgdir" install
   make -C $CHOST/32/libgcc DESTDIR="$pkgdir" install
@@ -367,7 +400,7 @@ package_gcc() {
 
   make -C lto-plugin DESTDIR="$pkgdir" install
   install -dm755 "$pkgdir"/usr/lib/bfd-plugins/
-  ln -s /${_libdir}/liblto_plugin.so \
+  ln -s /$_libdir/liblto_plugin.so \
     "$pkgdir/usr/lib/bfd-plugins/"
 
   make -C $CHOST/libgomp DESTDIR="$pkgdir" install-nodist_{libsubinclude,toolexeclib}HEADERS
@@ -396,7 +429,7 @@ package_gcc() {
   # create cc-rs compatible symlinks
   # https://github.com/rust-lang/cc-rs/blob/1.0.73/src/lib.rs#L2578-L2581
   for binary in {c++,g++,gcc,gcc-ar,gcc-nm,gcc-ranlib}; do
-    ln -s /usr/bin/${binary} "${pkgdir}"/usr/bin/x86_64-linux-gnu-${binary}
+    ln -s /usr/bin/$binary "$pkgdir"/usr/bin/x86_64-linux-gnu-$binary
   done
 
   # POSIX conformance launcher scripts for c89 and c99
@@ -421,9 +454,17 @@ package_gcc() {
 
 package_gcc-fortran() {
   pkgdesc='Fortran front-end for GCC'
-  depends=("gcc=$pkgver-$pkgrel" gcc-libs-gfortran libisl.so)
-  provides=($pkgname-multilib)
-  replaces=($pkgname-multilib)
+  depends=(
+    "gcc=$pkgver-$pkgrel"
+    gcc-libs-gfortran
+    libisl.so
+  )
+  provides=(
+    $pkgname-multilib
+  )
+  replaces=(
+    $pkgname-multilib
+  )
 
   cd gcc-build
   make -C $CHOST/libgfortran DESTDIR="$pkgdir" install-cafexeclibLTLIBRARIES \
@@ -432,7 +473,7 @@ package_gcc-fortran() {
     install-{toolexeclibDATA,nodist_fincludeHEADERS,gfor_cHEADERS}
   make -C $CHOST/libgomp DESTDIR="$pkgdir" install-nodist_fincludeHEADERS
   make -C gcc DESTDIR="$pkgdir" fortran.install-{common,man,info}
-  install -Dm755 gcc/f951 "$pkgdir/${_libdir}/f951"
+  install -Dm755 gcc/f951 "$pkgdir/$_libdir/f951"
 
   ln -s gfortran "$pkgdir/usr/bin/f95"
 
@@ -444,14 +485,22 @@ package_gcc-fortran() {
 
 package_gcc-objc() {
   pkgdesc='Objective-C front-end for GCC'
-  depends=("gcc=$pkgver-$pkgrel" gcc-libs-objc libisl.so)
-  provides=($pkgname-multilib)
-  replaces=($pkgname-multilib)
+  depends=(
+    "gcc=$pkgver-$pkgrel"
+    gcc-libs-objc
+    libisl.so
+  )
+  provides=(
+    $pkgname-multilib
+  )
+  replaces=(
+    $pkgname-multilib
+  )
 
   cd gcc-build
   make DESTDIR="$pkgdir" -C $CHOST/libobjc install-headers
-  install -dm755 "$pkgdir/${_libdir}"
-  install -m755 gcc/cc1obj{,plus} "$pkgdir/${_libdir}/"
+  install -dm755 "$pkgdir/$_libdir"
+  install -m755 gcc/cc1obj{,plus} "$pkgdir/$_libdir/"
 
   # Install Runtime Library Exception
   install -d "$pkgdir/usr/share/licenses/$pkgname/"
@@ -461,36 +510,46 @@ package_gcc-objc() {
 
 package_gcc-ada() {
   pkgdesc='Ada front-end for GCC (GNAT)'
-  depends=("gcc=$pkgver-$pkgrel" libisl.so)
-  provides=($pkgname-multilib)
-  replaces=($pkgname-multilib)
-  options=(!emptydirs staticlibs)
+  depends=(
+    "gcc=$pkgver-$pkgrel"
+    libisl.so
+  )
+  provides=(
+    $pkgname-multilib
+  )
+  replaces=(
+    $pkgname-multilib
+  )
+  options=(
+    !emptydirs
+    staticlibs
+  )
 
   cd gcc-build/gcc
   make DESTDIR="$pkgdir" ada.install-{common,info}
-  install -m755 gnat1 "$pkgdir/${_libdir}"
+  install -m755 gnat1 "$pkgdir/$_libdir"
 
   cd "$srcdir"/gcc-build/$CHOST/libada
-  make DESTDIR="${pkgdir}" INSTALL="install" \
+  make DESTDIR="$pkgdir" INSTALL="install" \
     INSTALL_DATA="install -m644" install-libada
 
   cd "$srcdir"/gcc-build/$CHOST/32/libada
-  make DESTDIR="${pkgdir}" INSTALL="install" \
+  make DESTDIR="$pkgdir" INSTALL="install" \
     INSTALL_DATA="install -m644" install-libada
 
   ln -s gcc "$pkgdir/usr/bin/gnatgcc"
 
   # insist on dynamic linking, but keep static libraries because gnatmake complains
-  mv "$pkgdir"/${_libdir}/adalib/libgna{rl,t}-${pkgver%%.*}.so "$pkgdir/usr/lib"
+  mv "$pkgdir"/$_libdir/adalib/libgna{rl,t}-${pkgver%%.*}.so "$pkgdir/usr/lib"
   ln -s libgnarl-${pkgver%%.*}.so "$pkgdir/usr/lib/libgnarl.so"
   ln -s libgnat-${pkgver%%.*}.so "$pkgdir/usr/lib/libgnat.so"
-  rm -f "$pkgdir"/${_libdir}/adalib/libgna{rl,t}.so
+  rm -f "$pkgdir"/$_libdir/adalib/libgna{rl,t}.so
 
   install -d "$pkgdir/usr/lib32/"
-  mv "$pkgdir"/${_libdir}/32/adalib/libgna{rl,t}-${pkgver%%.*}.so "$pkgdir/usr/lib32"
+  mv "$pkgdir"/$_libdir/32/adalib/libgna{rl,t}-${pkgver%%.*}.so "$pkgdir/usr/lib32"
   ln -s libgnarl-${pkgver%%.*}.so "$pkgdir/usr/lib32/libgnarl.so"
   ln -s libgnat-${pkgver%%.*}.so "$pkgdir/usr/lib32/libgnat.so"
-  rm -f "$pkgdir"/${_libdir}/32/adalib/libgna{rl,t}.so
+  rm -f "$pkgdir"/$_libdir/32/adalib/libgna{rl,t}.so
 
   # Install Runtime Library Exception
   install -d "$pkgdir/usr/share/licenses/$pkgname/"
@@ -500,10 +559,21 @@ package_gcc-ada() {
 
 package_gcc-go() {
   pkgdesc='Go front-end for GCC'
-  depends=("gcc=$pkgver-$pkgrel" gcc-libs-go libisl.so)
-  provides=("go=1.17" $pkgname-multilib)
-  replaces=($pkgname-multilib)
-  conflicts=(go)
+  depends=(
+    "gcc=$pkgver-$pkgrel"
+    gcc-libs-go
+    libisl.so
+  )
+  provides=(
+    "go=1.17"
+    $pkgname-multilib
+  )
+  replaces=(
+    $pkgname-multilib
+  )
+  conflicts=(
+    go
+  )
 
   cd gcc-build
   make -C $CHOST/libgo DESTDIR="$pkgdir" install-exec-am
@@ -512,7 +582,7 @@ package_gcc-go() {
   make -C gcc DESTDIR="$pkgdir" go.install-{common,man,info}
 
   rm -f "$pkgdir"/usr/lib{,32}/libgo.so*
-  install -Dm755 gcc/go1 "$pkgdir/${_libdir}/go1"
+  install -Dm755 gcc/go1 "$pkgdir/$_libdir/go1"
 
   # Install Runtime Library Exception
   install -d "$pkgdir/usr/share/licenses/$pkgname/"
@@ -522,9 +592,19 @@ package_gcc-go() {
 
 package_lib32-gcc-libs() {
   pkgdesc='32-bit runtime libraries shipped by GCC'
-  depends=('lib32-glibc>=2.27')
-  provides=(libgo.so libgfortran.so libubsan.so libasan.so)
-  options=(!emptydirs !strip)
+  depends=(
+    'lib32-glibc>=2.27'
+  )
+  provides=(
+    libgo.so
+    libgfortran.so
+    libubsan.so
+    libasan.so
+  )
+  options=(
+    !emptydirs
+    !strip
+  )
 
   cd gcc-build
 
@@ -558,10 +638,20 @@ package_lib32-gcc-libs() {
 
 package_gcc-d() {
   pkgdesc="D frontend for GCC"
-  depends=("gcc=$pkgver-$pkgrel" gcc-libs-d libisl.so)
-  provides=(gdc)
-  replaces=(gdc)
-  options=(staticlibs)
+  depends=(
+    "gcc=$pkgver-$pkgrel"
+    gcc-libs-d
+    libisl.so
+  )
+  provides=(
+    gdc
+  )
+  replaces=(
+    gdc
+  )
+  options=(
+    staticlibs
+  )
 
   cd gcc-build
   make -C gcc DESTDIR="$pkgdir" d.install-{common,man,info}
@@ -581,7 +671,10 @@ package_gcc-d() {
 
 package_gcc-m2() {
   pkgdesc='Modula-2 frontend for GCC'
-  depends=("gcc=$pkgver-$pkgrel" libisl.so)
+  depends=(
+    "gcc=$pkgver-$pkgrel"
+    libisl.so
+  )
 
   cd gcc-build
   make -C gcc DESTDIR="$pkgdir" m2.install-{common,man,info}
@@ -599,7 +692,10 @@ package_gcc-m2() {
 
 package_gcc-rust() {
   pkgdesc="Rust frontend for GCC"
-  depends=("gcc=$pkgver-$pkgrel" libisl.so)
+  depends=(
+    "gcc=$pkgver-$pkgrel"
+    libisl.so
+  )
 
   cd gcc-build
   make -C gcc DESTDIR="$pkgdir" rust.install-{common,man,info}
@@ -615,7 +711,11 @@ package_gcc-rust() {
 
 package_gcc-gcobol() {
   pkgdesc="Cobol frontend for GCC"
-  depends=("gcc=$pkgver-$pkgrel" gcc-libs-gcobol libisl.so)
+  depends=(
+    "gcc=$pkgver-$pkgrel"
+    gcc-libs-gcobol
+    libisl.so
+  )
 
   cd gcc-build
   make -C gcc DESTDIR="$pkgdir" cobol.install-{common,man,info}
@@ -632,7 +732,10 @@ package_gcc-gcobol() {
 
 package_lto-dump() {
   pkgdesc="Dump link time optimization object files"
-  depends=("gcc=$pkgver-$pkgrel" libisl.so)
+  depends=(
+    "gcc=$pkgver-$pkgrel"
+    libisl.so
+  )
 
   cd gcc-build
   make -C gcc DESTDIR="$pkgdir" lto.install-{common,man,info}
@@ -645,7 +748,10 @@ package_lto-dump() {
 
 package_libgccjit() {
   pkgdesc="Just-In-Time Compilation with GCC backend"
-  depends=("gcc=$pkgver-$pkgrel" libisl.so)
+  depends=(
+    "gcc=$pkgver-$pkgrel"
+    libisl.so
+  )
 
   cd gcc-build
   make -C gcc DESTDIR="$pkgdir" jit.install-common jit.install-info
