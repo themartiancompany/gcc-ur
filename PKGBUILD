@@ -38,8 +38,8 @@ pkgname=(
   libubsan
   lto-dump
 )
-pkgver=15.2.1+r447+g6a64f6c3ebb8
-_commit=6a64f6c3ebb88a30ee1f36803c48573731018e0c
+pkgver=15.2.1+r604+g0b99615a8aef
+_commit=0b99615a8aef011cff76c6caa8c09434f46598b3
 pkgrel=1
 pkgdesc='The GNU Compiler Collection'
 arch=(x86_64)
@@ -79,7 +79,7 @@ validpgpkeys=(F3691687D867B81B51CE07D9BBE43771487328A9  # bpiotrowski@archlinux.
               86CFFCA918CF3AF47147588051E8B148A9999C34  # foutrelis@archlinux.org
               13975A70E63C361C73AE69EF6EEB81F8981C74C7  # richard.guenther@gmail.com
               D3A93CAD751C2AF4F8C7AD516C35B99309B5FA62) # Jakub Jelinek <jakub@redhat.com>
-sha256sums=('adeb3a940db8da675a596af35aeeb05be1308b26d9a80f105dc6e2487d3ac4f0'
+sha256sums=('fda170be6da777107c74ad322d51a508edf448b86ce8247755eb0eb1524f38b6'
             '7b09ec947f90b98315397af675369a1e3dfc527fa70013062e6e85c4be0275ab'
             '44ea973558842f3f4bd666bdaf6e810fd7b7c7bd36b5cc4c69f93d2cd0124fc7'
             '1773f5137f08ac1f48f0f7297e324d5d868d55201c03068670ee4602babdef2f')
