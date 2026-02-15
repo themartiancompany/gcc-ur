@@ -194,7 +194,12 @@ check() {
 package_gcc() {
   pkgdesc="The GNU Compiler Collection - C and C++ frontends"
   depends=(
-    "gcc-libs=$pkgver-$pkgrel"
+    "libasan=$pkgver-$pkgrel"
+    "libgcc=$pkgver-$pkgrel"
+    "liblsan=$pkgver-$pkgrel"
+    "libstdc++=$pkgver-$pkgrel"
+    "libtsan=$pkgver-$pkgrel"
+    "libubsan=$pkgver-$pkgrel"
     'binutils>=2.28'
     libmpc
     zstd
