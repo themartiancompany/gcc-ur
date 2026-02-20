@@ -194,6 +194,12 @@ check() {
   "$srcdir/gcc/contrib/test_summary"
 }
 
+_install_runtime_library_exception() {
+  # Install Runtime Library Exception
+  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
+    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+}
+
 package_gcc() {
   pkgdesc="The GNU Compiler Collection - C and C++ frontends"
   depends=(
@@ -302,9 +308,7 @@ package_gcc() {
   python -m compileall "$pkgdir/usr/share/gcc-${pkgver%%+*}/"
   python -O -m compileall "$pkgdir/usr/share/gcc-${pkgver%%+*}/"
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_gcc-ada() {
@@ -350,9 +354,7 @@ package_gcc-ada() {
   ln -s libgnat-${pkgver%%.*}.so "$pkgdir/usr/lib32/libgnat.so"
   rm -f "$pkgdir"/$_libdir/32/adalib/libgna{rl,t}.so
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_gcc-d() {
@@ -383,9 +385,7 @@ package_gcc-d() {
   rm -f "$pkgdir/usr/lib/"lib{gphobos,gdruntime}.so*
   rm -f "$pkgdir/usr/lib32/"lib{gphobos,gdruntime}.so*
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_gcc-fortran() {
@@ -413,9 +413,7 @@ package_gcc-fortran() {
 
   ln -s gfortran "$pkgdir/usr/bin/f95"
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_gcc-gcobol() {
@@ -433,9 +431,7 @@ package_gcc-gcobol() {
 
   install -Dm644 $CHOST/libgcobol/libgcobol.spec "$pkgdir"/$_libdir/
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_gcc-go() {
@@ -465,9 +461,7 @@ package_gcc-go() {
   rm -f "$pkgdir"/usr/lib{,32}/libgo.so*
   install -Dm755 gcc/go1 "$pkgdir/$_libdir/go1"
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 
@@ -505,9 +499,7 @@ package_gcc-m2() {
   install -Dm755 gcc/cc1gm2 "$pkgdir/$_libdir"/cc1gm2
   install -Dm755 gcc/gm2 "$pkgdir"/usr/bin/gm2
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_gcc-objc() {
@@ -529,9 +521,7 @@ package_gcc-objc() {
   install -dm755 "$pkgdir/$_libdir"
   install -m755 gcc/cc1obj{,plus} "$pkgdir/$_libdir/"
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_gcc-rust() {
@@ -547,9 +537,7 @@ package_gcc-rust() {
   install -Dm755 gcc/gccrs "$pkgdir"/usr/bin/gccrs
   install -Dm755 gcc/crab1 "$pkgdir"/usr/bin/crab1
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_lib32-gcc-libs() {
@@ -599,9 +587,7 @@ package_lib32-gcc-libs() {
   # remove files provided by gcc-libs
   rm -rf "$pkgdir"/usr/lib
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libasan() {
@@ -617,9 +603,7 @@ package_libasan() {
 
   make -C $CHOST/libsanitizer/asan DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libatomic() {
@@ -635,9 +619,7 @@ package_libatomic() {
 
   make -C $CHOST/libatomic DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libgcc() {
@@ -653,9 +635,7 @@ package_libgcc() {
   make -C $CHOST/libgcc DESTDIR="$pkgdir" install-shared
   rm -f "$pkgdir/$_libdir/libgcc_eh.a"
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libgccjit() {
@@ -671,9 +651,7 @@ package_libgccjit() {
   cd gcc-build
   make -C gcc DESTDIR="$pkgdir" jit.install-common jit.install-info
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libgcobol() {
@@ -688,9 +666,7 @@ package_libgcobol() {
   cd gcc-build
   make -C $CHOST/libgcobol DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libgfortran() {
@@ -705,9 +681,7 @@ package_libgfortran() {
   cd gcc-build
   make -C $CHOST/libgfortran DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libgo() {
@@ -722,9 +696,7 @@ package_libgo() {
   cd gcc-build
   make -C $CHOST/libgo DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 
@@ -742,9 +714,7 @@ package_libgomp() {
   make -C $CHOST/libgomp DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
   make -C $CHOST/libgomp DESTDIR="$pkgdir" install-info
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libgm2() {
@@ -767,9 +737,7 @@ package_libgm2() {
   # remove files provided by lib32-gcc-libs
   rm -rf "$pkgdir"/usr/lib32/
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libgphobos() {
@@ -791,9 +759,7 @@ package_libgphobos() {
   # remove files provided by lib32-gcc-libs
   rm -rf "$pkgdir"/usr/lib32/
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libitm() {
@@ -810,9 +776,7 @@ package_libitm() {
   make -C $CHOST/libitm DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
   make -C $CHOST/libitm DESTDIR="$pkgdir" install-info
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_liblsan() {
@@ -828,9 +792,7 @@ package_liblsan() {
 
   make -C $CHOST/libsanitizer/lsan DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libobjc() {
@@ -848,9 +810,7 @@ package_libobjc() {
   # remove files provided by lib32-gcc-libs
   rm -rf "$pkgdir"/usr/lib32/
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libquadmath() {
@@ -867,9 +827,7 @@ package_libquadmath() {
   make -C $CHOST/libquadmath DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
   make -C $CHOST/libquadmath DESTDIR="$pkgdir" install-info
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libstdc++ () {
@@ -885,9 +843,7 @@ package_libstdc++ () {
   make -C $CHOST/libstdc++-v3/src DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
   make -C $CHOST/libstdc++-v3/po DESTDIR="$pkgdir" install
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libtsan() {
@@ -903,9 +859,7 @@ package_libtsan() {
 
   make -C $CHOST/libsanitizer/tsan DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_libubsan() {
@@ -921,9 +875,7 @@ package_libubsan() {
 
   make -C $CHOST/libsanitizer/ubsan DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
 
 package_lto-dump() {
@@ -936,7 +888,5 @@ package_lto-dump() {
   cd gcc-build
   make -C gcc DESTDIR="$pkgdir" lto.install-{common,man,info}
 
-  # Install Runtime Library Exception
-  install -Dm644 "$srcdir/gcc/COPYING.RUNTIME" \
-    "$pkgdir/usr/share/licenses/$pkgname/RUNTIME.LIBRARY.EXCEPTION"
+  _install_runtime_library_exception
 }
