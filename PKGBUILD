@@ -369,6 +369,7 @@ package_gcc-d() {
     gdc
   )
   options=(
+    !emptydirs
     staticlibs
   )
 
