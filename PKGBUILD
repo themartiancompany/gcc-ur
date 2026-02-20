@@ -210,9 +210,13 @@ package_gcc() {
     "libtsan=$pkgver-$pkgrel"
     "libubsan=$pkgver-$pkgrel"
     'binutils>=2.28'
-    libmpc
-    zstd
+    'glibc>=2.27'
+    gmp
     libisl.so
+    libmpc
+    mpfr
+    zlib
+    zstd
   )
   optdepends=(
     'lib32-gcc-libs: for generating code for 32-bit ABI'
@@ -315,7 +319,14 @@ package_gcc-ada() {
   pkgdesc='Ada front-end for GCC (GNAT)'
   depends=(
     "gcc=$pkgver-$pkgrel"
+    'glibc>=2.27'
+    gmp
+    libgcc
     libisl.so
+    libmpc
+    mpfr
+    zlib
+    zstd
   )
   provides=(
     $pkgname-multilib
@@ -361,8 +372,14 @@ package_gcc-d() {
   pkgdesc="D frontend for GCC"
   depends=(
     "gcc=$pkgver-$pkgrel"
+    'glibc>=2.27'
+    gmp
     libgphobos
     libisl.so
+    libmpc
+    mpfr
+    zlib
+    zstd
   )
   provides=(
     gdc
@@ -392,8 +409,14 @@ package_gcc-fortran() {
   pkgdesc='Fortran front-end for GCC'
   depends=(
     "gcc=$pkgver-$pkgrel"
+    'glibc>=2.27'
+    gmp
     libgfortran
     libisl.so
+    libmpc
+    mpfr
+    zlib
+    zstd
   )
   provides=(
     $pkgname-multilib
@@ -420,8 +443,14 @@ package_gcc-gcobol() {
   pkgdesc="Cobol frontend for GCC"
   depends=(
     "gcc=$pkgver-$pkgrel"
+    'glibc>=2.27'
+    gmp
     libgcobol
     libisl.so
+    libmpc
+    mpfr
+    zlib
+    zstd
   )
 
   cd gcc-build
@@ -438,8 +467,14 @@ package_gcc-go() {
   pkgdesc='Go front-end for GCC'
   depends=(
     "gcc=$pkgver-$pkgrel"
+    'glibc>=2.27'
+    gmp
     libgo
     libisl.so
+    libmpc
+    mpfr
+    zlib
+    zstd
   )
   provides=(
     "go=1.17"
@@ -471,8 +506,8 @@ package_gcc-libs() {
     'glibc>=2.27'
     libasan
     libatomic
-    libgfortran
     libgcc
+    libgfortran
     libgomp
     liblsan
     libobjc
@@ -490,7 +525,13 @@ package_gcc-m2() {
   pkgdesc='Modula-2 frontend for GCC'
   depends=(
     "gcc=$pkgver-$pkgrel"
+    'glibc>=2.27'
+    gmp
     libisl.so
+    libmpc
+    mpfr
+    zlib
+    zstd
   )
 
   cd gcc-build
@@ -506,8 +547,14 @@ package_gcc-objc() {
   pkgdesc='Objective-C front-end for GCC'
   depends=(
     "gcc=$pkgver-$pkgrel"
-    libobjc
+    'glibc>=2.27'
+    gmp
     libisl.so
+    libmpc
+    libobjc
+    mpfr
+    zlib
+    zstd
   )
   provides=(
     $pkgname-multilib
@@ -528,7 +575,13 @@ package_gcc-rust() {
   pkgdesc="Rust frontend for GCC"
   depends=(
     "gcc=$pkgver-$pkgrel"
+    'glibc>=2.27'
+    gmp
     libisl.so
+    libmpc
+    mpfr
+    zlib
+    zstd
   )
 
   cd gcc-build
@@ -594,6 +647,8 @@ package_libasan() {
   pkgdesc='Address Sanitizer runtime library shipped by GCC'
   depends=(
     'glibc>=2.27'
+    libgcc
+    libstdc++
   )
   provides=(
     libasan.so
@@ -642,7 +697,13 @@ package_libgccjit() {
   pkgdesc="Just-In-Time Compilation with GCC backend"
   depends=(
     "gcc=$pkgver-$pkgrel"
+    'glibc>=2.27'
+    gmp
     libisl.so
+    libmpc
+    mpfr
+    zlib
+    zstd
   )
   provides=(
     libgccjit.so
@@ -658,6 +719,8 @@ package_libgcobol() {
   pkgdesc='Cobol runtime libraries shipped by GCC'
   depends=(
     'glibc>=2.27'
+    libgcc
+    libstdc++
   )
   provides=(
     libgcobol.so
@@ -673,6 +736,7 @@ package_libgfortran() {
   pkgdesc='Runtime libraries shipped by GCC'
   depends=(
     'glibc>=2.27'
+    libgcc
   )
   provides=(
     libgfortran.so
@@ -688,6 +752,7 @@ package_libgo() {
   pkgdesc='Go runtime libraries shipped by GCC'
   depends=(
     'glibc>=2.27'
+    libgcc
   )
   provides=(
     libgo.so
@@ -744,6 +809,7 @@ package_libgphobos() {
   pkgdesc='D runtime libraries shipped by GCC'
   depends=(
     'glibc>=2.27'
+    libgcc
   )
   provides=(
     libgdruntime.so
@@ -766,6 +832,7 @@ package_libitm() {
   pkgdesc='GNU Transactional Memory library shipped by GCC'
   depends=(
     'glibc>=2.27'
+    libgcc
   )
   provides=(
     libitm.so
@@ -783,6 +850,8 @@ package_liblsan() {
   pkgdesc='Leak Sanitizer runtime library shipped by GCC'
   depends=(
     'glibc>=2.27'
+    libgcc
+    libstdc++
   )
   provides=(
     liblsan.so
@@ -799,6 +868,7 @@ package_libobjc() {
   pkgdesc='Ojective-C runtime libraries shipped by GCC'
   depends=(
     'glibc>=2.27'
+    libgcc
   )
   provides=(
     libobjc.so
@@ -817,6 +887,7 @@ package_libquadmath() {
   pkgdesc='GCC __float128 library'
   depends=(
     'glibc>=2.27'
+    libgcc
   )
   provides=(
     libquadmath.so
@@ -834,6 +905,7 @@ package_libstdc++ () {
   pkgdesc='C++ runtime libraries shipped by GCC'
   depends=(
     'glibc>=2.27'
+    libgcc
   )
   provides=(
     libstdc++.so
@@ -850,6 +922,8 @@ package_libtsan() {
   pkgdesc='Thread Sanitizer runtime library shipped by GCC'
   depends=(
     'glibc>=2.27'
+    libgcc
+    libstdc++
   )
   provides=(
     libtsan.so
@@ -866,6 +940,8 @@ package_libubsan() {
   pkgdesc='Undefined Behavior Sanitizer runtime library shipped by GCC'
   depends=(
     'glibc>=2.27'
+    libgcc
+    libstdc++
   )
   provides=(
     libubsan.so
@@ -882,7 +958,13 @@ package_lto-dump() {
   pkgdesc="Dump link time optimization object files"
   depends=(
     "gcc=$pkgver-$pkgrel"
+    'glibc>=2.27'
+    gmp
     libisl.so
+    libmpc
+    mpfr
+    zlib
+    zstd
   )
 
   cd gcc-build
