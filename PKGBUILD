@@ -43,7 +43,10 @@ _commit=0b99615a8aef011cff76c6caa8c09434f46598b3
 pkgrel=1
 pkgdesc='The GNU Compiler Collection'
 arch=(x86_64)
-license=(GPL-3.0-with-GCC-exception GFDL-1.3-or-later)
+license=(
+  'GPL-3.0-or-later WITH GCC-exception-3.1'
+  GFDL-1.3-or-later
+)
 url='https://gcc.gnu.org'
 makedepends=(
   binutils
