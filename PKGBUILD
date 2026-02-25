@@ -527,6 +527,7 @@ package_gcc-m2() {
     "gcc=$pkgver-$pkgrel"
     'glibc>=2.27'
     gmp
+    libgm2
     libisl.so
     libmpc
     mpfr
@@ -783,7 +784,7 @@ package_libgomp() {
 }
 
 package_libgm2() {
-  pkgdesc='Address Sanitizer runtime library shipped by GCC'
+  pkgdesc='Modula-2 runtime libraries shipped by GCC'
   depends=(
     'glibc>=2.27'
   )
