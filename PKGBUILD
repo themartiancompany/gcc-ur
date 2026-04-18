@@ -95,9 +95,6 @@ prepare() {
   [[ ! -d gcc ]] && ln -s gcc-${pkgver/+/-} gcc
   cd gcc
 
-  # Do not run fixincludes
-  sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
-
   # Arch Linux installs x86_64 libraries /lib
   sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 
@@ -138,6 +135,7 @@ build() {
       --disable-libssp
       --disable-libstdcxx-pch
       --disable-werror
+      --disable-fixincludes
   )
 
   cd gcc-build
