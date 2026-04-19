@@ -116,7 +116,6 @@ build() {
       --with-build-config=bootstrap-lto
       --with-linker-hash-style=gnu
       --with-system-zlib
-      --enable-__cxa_atexit
       --enable-cet=auto
       --enable-checking=release
       --enable-clocale=gnu
