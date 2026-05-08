@@ -42,6 +42,7 @@ pkgname = gcc
 	pkgdesc = The GNU Compiler Collection - C and C++ frontends
 	depends = libasan=16.1.1+r12+g301eb08fa2c5-1
 	depends = libgcc=16.1.1+r12+g301eb08fa2c5-1
+	depends = libhwasan=16.1.1+r12+g301eb08fa2c5-1
 	depends = liblsan=16.1.1+r12+g301eb08fa2c5-1
 	depends = libstdc++=16.1.1+r12+g301eb08fa2c5-1
 	depends = libtsan=16.1.1+r12+g301eb08fa2c5-1
@@ -142,6 +143,7 @@ pkgname = gcc-libs
 	depends = libgcc
 	depends = libgfortran
 	depends = libgomp
+	depends = libhwasan
 	depends = liblsan
 	depends = libobjc
 	depends = libquadmath
@@ -271,6 +273,13 @@ pkgname = libgphobos
 	depends = libgcc
 	provides = libgdruntime.so
 	provides = libgphobos.so
+
+pkgname = libhwasan
+	pkgdesc = Hardware-assisted Address Sanitizer runtime library shipped by GCC
+	depends = glibc>=2.27
+	depends = libgcc
+	depends = libstdc++
+	provides = libhwasan.so
 
 pkgname = libitm
 	pkgdesc = GNU Transactional Memory library shipped by GCC

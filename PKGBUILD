@@ -29,6 +29,7 @@ pkgname=(
   libgo
   libgomp
   libgphobos
+  libhwasan
   libitm
   liblsan
   libobjc
@@ -202,6 +203,7 @@ package_gcc() {
   depends=(
     "libasan=$pkgver-$pkgrel"
     "libgcc=$pkgver-$pkgrel"
+    "libhwasan=$pkgver-$pkgrel"
     "liblsan=$pkgver-$pkgrel"
     "libstdc++=$pkgver-$pkgrel"
     "libtsan=$pkgver-$pkgrel"
@@ -270,6 +272,7 @@ package_gcc() {
   make -C $CHOST/libquadmath DESTDIR="$pkgdir" install-nodist_libsubincludeHEADERS
   make -C $CHOST/libsanitizer DESTDIR="$pkgdir" install-nodist_{saninclude,toolexeclib}HEADERS
   make -C $CHOST/libsanitizer/asan DESTDIR="$pkgdir" install-nodist_toolexeclibHEADERS
+  make -C $CHOST/libsanitizer/hwasan DESTDIR="$pkgdir" install-nodist_toolexeclibHEADERS
   make -C $CHOST/libsanitizer/tsan DESTDIR="$pkgdir" install-nodist_toolexeclibHEADERS
   make -C $CHOST/libsanitizer/lsan DESTDIR="$pkgdir" install-nodist_toolexeclibHEADERS
   make -C $CHOST/32/libgomp DESTDIR="$pkgdir" install-nodist_toolexeclibHEADERS
@@ -506,6 +509,7 @@ package_gcc-libs() {
     libgcc
     libgfortran
     libgomp
+    libhwasan
     liblsan
     libobjc
     libquadmath
@@ -822,6 +826,24 @@ package_libgphobos() {
 
   # remove files provided by lib32-gcc-libs
   rm -rf "$pkgdir"/usr/lib32/
+
+  _install_runtime_library_exception
+}
+
+package_libhwasan() {
+  pkgdesc='Hardware-assisted Address Sanitizer runtime library shipped by GCC'
+  depends=(
+    'glibc>=2.27'
+    libgcc
+    libstdc++
+  )
+  provides=(
+    libhwasan.so
+  )
+
+  cd gcc-build
+
+  make -C $CHOST/libsanitizer/hwasan DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
 
   _install_runtime_library_exception
 }
