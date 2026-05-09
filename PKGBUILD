@@ -258,6 +258,8 @@ package_gcc() {
     "$pkgdir/usr/share/gdb/auto-load/usr/lib/"
   rm "$pkgdir"/usr/lib{,32}/libstdc++.so*
   rm "$pkgdir"/usr/lib{,32}/libatomic.so*
+  mv -v "$pkgdir"/usr/lib/libatomic* "$pkgdir/$_libdir/"
+  mv -v "$pkgdir"/usr/lib32/libatomic* "$pkgdir/$_libdir/32"
 
   make DESTDIR="$pkgdir" install-fixincludes
   make -C gcc DESTDIR="$pkgdir" install-mkheaders
@@ -621,6 +623,7 @@ package_lib32-gcc-libs() {
 
   make -C $CHOST/32/libgcc DESTDIR="$pkgdir" install-shared
   rm -f "$pkgdir/$_libdir/32/libgcc_eh.a"
+  mv -v "$pkgdir"/usr/lib32/libgcc_s{,_asneeded}.so "$pkgdir/$_libdir/32"
 
   for lib in libatomic \
              libgcobol \
@@ -691,6 +694,7 @@ package_libgcc() {
   cd gcc-build
   make -C $CHOST/libgcc DESTDIR="$pkgdir" install-shared
   rm -f "$pkgdir/$_libdir/libgcc_eh.a"
+  mv -v "$pkgdir"/usr/lib/libgcc_s{,_asneeded}.so "$pkgdir/$_libdir/"
 
   _install_runtime_library_exception
 }
