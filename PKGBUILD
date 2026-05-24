@@ -171,12 +171,7 @@ build() {
     --enable-host-shared \
     "${_confflags[@]:?_confflags unset}"
 
-  # see https://bugs.archlinux.org/task/71777 for rationale re *FLAGS handling
-  make -O STAGE1_CFLAGS="-O2" \
-          BOOT_CFLAGS="$CFLAGS" \
-          BOOT_LDFLAGS="$LDFLAGS" \
-          LDFLAGS_FOR_TARGET="$LDFLAGS" \
-          all-gcc
+  make -O all-gcc
 
   cp -a gcc/libgccjit.so* ../gcc-build/gcc/
 }
