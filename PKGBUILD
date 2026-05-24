@@ -74,7 +74,7 @@ options=(
   !emptydirs
   !lto
 )
-_libdir=usr/lib/gcc/$CHOST/${pkgver%%+*}
+_libdir=usr/lib/gcc/$CHOST/${pkgver%%.*}
 source=(git+https://sourceware.org/git/gcc.git#commit=$_commit
         c89 c99
         gcc-ada-repro.patch
@@ -115,6 +115,7 @@ build() {
       --infodir=/usr/share/info
       --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues \
       --with-build-config=bootstrap-lto
+      --with-gcc-major-version-only
       --with-linker-hash-style=gnu
       --with-system-zlib
       --enable-cet=auto
