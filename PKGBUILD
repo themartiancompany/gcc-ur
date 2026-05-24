@@ -55,8 +55,8 @@ makedepends=(
   gcc-ada
   gcc-d
   git
-  lib32-glibc
   lib32-gcc-libs
+  lib32-glibc
   libisl
   libmpc
   python
@@ -132,10 +132,10 @@ build() {
       --enable-plugin
       --enable-shared
       --enable-threads=posix
+      --disable-fixincludes
       --disable-libssp
       --disable-libstdcxx-pch
       --disable-werror
-      --disable-fixincludes
   )
 
   cd gcc-build
@@ -749,40 +749,6 @@ package_libgfortran() {
   _install_runtime_library_exception
 }
 
-package_libgo() {
-  pkgdesc='Go runtime libraries shipped by GCC'
-  depends=(
-    'glibc>=2.27'
-    libgcc
-  )
-  provides=(
-    libgo.so
-  )
-
-  cd gcc-build
-  make -C $CHOST/libgo DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
-
-  _install_runtime_library_exception
-}
-
-
-package_libgomp() {
-  pkgdesc='OpenMP library shipped by GCC'
-  depends=(
-    'glibc>=2.27'
-  )
-  provides=(
-    libgomp.so
-  )
-
-  cd gcc-build
-
-  make -C $CHOST/libgomp DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
-  make -C $CHOST/libgomp DESTDIR="$pkgdir" install-info
-
-  _install_runtime_library_exception
-}
-
 package_libgm2() {
   pkgdesc='Modula-2 runtime libraries shipped by GCC'
   depends=(
@@ -802,6 +768,39 @@ package_libgm2() {
 
   # remove files provided by lib32-gcc-libs
   rm -rf "$pkgdir"/usr/lib32/
+
+  _install_runtime_library_exception
+}
+
+package_libgo() {
+  pkgdesc='Go runtime libraries shipped by GCC'
+  depends=(
+    'glibc>=2.27'
+    libgcc
+  )
+  provides=(
+    libgo.so
+  )
+
+  cd gcc-build
+  make -C $CHOST/libgo DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
+
+  _install_runtime_library_exception
+}
+
+package_libgomp() {
+  pkgdesc='OpenMP library shipped by GCC'
+  depends=(
+    'glibc>=2.27'
+  )
+  provides=(
+    libgomp.so
+  )
+
+  cd gcc-build
+
+  make -C $CHOST/libgomp DESTDIR="$pkgdir" install-toolexeclibLTLIBRARIES
+  make -C $CHOST/libgomp DESTDIR="$pkgdir" install-info
 
   _install_runtime_library_exception
 }
