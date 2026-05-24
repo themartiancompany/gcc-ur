@@ -146,7 +146,7 @@ build() {
   CFLAGS=${CFLAGS/-Werror=format-security/}
   CXXFLAGS=${CXXFLAGS/-Werror=format-security/}
 
-  "$srcdir/gcc/configure" \
+  ../gcc/configure \
     --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol \
     --enable-bootstrap \
     "${_confflags[@]:?_confflags unset}"
@@ -165,7 +165,7 @@ build() {
   # which brings a performance penalty
   cd "$srcdir"/libgccjit-build
 
-  "$srcdir/gcc/configure" \
+  ../gcc/configure \
     --enable-languages=jit \
     --disable-bootstrap \
     --enable-host-shared \
