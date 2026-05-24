@@ -291,7 +291,7 @@ package_gcc() {
   # create cc-rs compatible symlinks
   # https://github.com/rust-lang/cc-rs/blob/1.0.73/src/lib.rs#L2578-L2581
   for binary in {c++,g++,gcc,gcc-ar,gcc-nm,gcc-ranlib}; do
-    ln -s /usr/bin/$binary "$pkgdir"/usr/bin/x86_64-linux-gnu-$binary
+    ln -s "/usr/bin/$binary" "$pkgdir/usr/bin/$CARCH-linux-gnu-$binary"
   done
 
   # POSIX conformance launcher scripts for c89 and c99
