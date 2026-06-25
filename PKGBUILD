@@ -39,8 +39,8 @@ pkgname=(
   libubsan
   lto-dump
 )
-pkgver=16.1.1+r12+g301eb08fa2c5
-_commit=301eb08fa2c5b6f3045260bf1294c2e2bacbcd90
+pkgver=16.1.1+r346+g4e03491b401d
+_commit=4e03491b401dce0658543dd90524ddb92063836e
 pkgrel=1
 pkgdesc='The GNU Compiler Collection'
 arch=(x86_64)
@@ -75,18 +75,22 @@ options=(
   !lto
 )
 _libdir=usr/lib/gcc/$CHOST/${pkgver%%.*}
-source=(git+https://sourceware.org/git/gcc.git#commit=$_commit
-        c89 c99
-        gcc-ada-repro.patch
+source=(
+  git+https://sourceware.org/git/gcc.git#commit=$_commit
+  c89
+  c99
+  gcc-ada-repro.patch
+  tune_branch_prediction_cost.patch
 )
 validpgpkeys=(F3691687D867B81B51CE07D9BBE43771487328A9  # bpiotrowski@archlinux.org
               86CFFCA918CF3AF47147588051E8B148A9999C34  # foutrelis@archlinux.org
               13975A70E63C361C73AE69EF6EEB81F8981C74C7  # richard.guenther@gmail.com
               D3A93CAD751C2AF4F8C7AD516C35B99309B5FA62) # Jakub Jelinek <jakub@redhat.com>
-sha256sums=('e7641bfddebaada298ca0a631183ef8d81bb3c5dfd3aef30bc7d4223f1c0e450'
+sha256sums=('73dca834e44d5e4501efa3f68a190a902d0a83c66f4cf4fd5b3da24e2cefdaf4'
             '7b09ec947f90b98315397af675369a1e3dfc527fa70013062e6e85c4be0275ab'
             '44ea973558842f3f4bd666bdaf6e810fd7b7c7bd36b5cc4c69f93d2cd0124fc7'
-            '1773f5137f08ac1f48f0f7297e324d5d868d55201c03068670ee4602babdef2f')
+            '1773f5137f08ac1f48f0f7297e324d5d868d55201c03068670ee4602babdef2f'
+            '838e14d4ef76079107a5373316598025915eaf747a10522ec9f8842125ca9a8e')
 pkgver() {
   cd gcc
   echo "$(cat gcc/BASE-VER)+$(git describe --abbrev=12 --tags | sed 's/[^-]*-[^-]*-//;s/[^-]*-/r&/;s/-/+/g;s/_/./')"
@@ -101,6 +105,9 @@ prepare() {
 
   # Reproducible gcc-ada
   patch -Np0 < "$srcdir/gcc-ada-repro.patch"
+
+  # tune branch prediction cost
+  patch -Np1 < ../tune_branch_prediction_cost.patch
 
   mkdir -p "$srcdir/gcc-build"
   mkdir -p "$srcdir/libgccjit-build"
