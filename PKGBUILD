@@ -247,6 +247,17 @@ package_gcc() {
   (
     cd "$pkgdir"
 
+    # prepare internal *.so symlinks to ensure shared linking for those shared libs
+    # where we ALSO ship a matching static lib in the internal _libdir
+    ln -srv usr/lib/libatomic.so "$_libdir/libatomic.so"
+    ln -srv usr/lib/libstdc++.so "$_libdir/libstdc++.so"
+    ln -srv usr/lib/libgdruntime.so "$_libdir/libgdruntime.so"
+    ln -srv usr/lib/libgphobos.so "$_libdir/libgphobos.so"
+    ln -srv usr/lib32/libatomic.so "$_libdir/32/libatomic.so"
+    ln -srv usr/lib32/libstdc++.so "$_libdir/32/libstdc++.so"
+    ln -srv usr/lib32/libgdruntime.so "$_libdir/32/libgdruntime.so"
+    ln -srv usr/lib32/libgphobos.so "$_libdir/32/libgphobos.so"
+
     _pick gcc-ada usr/bin/gnat{,bind,chop,clean,kr,link,ls,make,name,prep}
     _pick gcc-ada "$_libdir"/{,32/}ada_target_properties
     _pick gcc-ada "$_libdir"/{,32/}ada{include,lib}/
@@ -256,6 +267,7 @@ package_gcc() {
     _pick gcc-d usr/bin/{gdc,"$CHOST"-gdc}
     _pick gcc-d "$_libdir"/d21
     _pick gcc-d "$_libdir"/include/d/
+    _pick gcc-d "$_libdir"/{,32/}libg{druntime,phobos}.so
     _pick gcc-d usr/lib{,32}/libg{druntime,phobos}.a
     _pick gcc-d usr/lib{,32}/libgphobos.spec
     _pick gcc-d usr/share/info/gdc.info
@@ -297,6 +309,7 @@ package_gcc() {
 
     _pick lib32-gcc-libs usr/lib32/libasan.{a,so*}
     _pick lib32-gcc-libs usr/lib32/libatomic.so*
+    _pick lib32-gcc-libs "$_libdir"/32/libatomic.so
     _pick lib32-gcc-libs usr/lib32/libgcc_s.so.*
     _pick lib32-gcc-libs usr/lib32/libgdruntime.so*
     _pick lib32-gcc-libs usr/lib32/libgfortran.{a,so*}
@@ -312,6 +325,7 @@ package_gcc() {
     _pick libasan usr/lib/libasan.{a,so*}
 
     _pick libatomic usr/lib/libatomic.so*
+    _pick libatomic "$_libdir"/libatomic.so
 
     _pick libgcc usr/lib/libgcc_s.so.*
 
@@ -469,7 +483,7 @@ package_gcc-d() {
   )
 
   mv -v "$pkgname"/* "$pkgdir"
-  mkdir -v "$pkgdir/$_libdir/32"
+  mkdir -pv "$pkgdir/$_libdir/32"
   mv -v "$pkgdir"/usr/lib/libg{druntime,phobos}.a "$pkgdir/$_libdir/"
   mv -v "$pkgdir"/usr/lib32/libg{druntime,phobos}.a "$pkgdir/$_libdir/32"
   mv -v "$pkgdir/usr/lib/libgphobos.spec" "$pkgdir/$_libdir/"
