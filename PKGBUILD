@@ -41,7 +41,7 @@ pkgname=(
 )
 pkgver=16.1.1+r346+g4e03491b401d
 _commit=4e03491b401dce0658543dd90524ddb92063836e
-pkgrel=3
+pkgrel=4
 pkgdesc='The GNU Compiler Collection'
 arch=(x86_64)
 license=(
