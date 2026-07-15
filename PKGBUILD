@@ -404,8 +404,8 @@ package_gcc() {
   mv -v "$pkgdir"/usr/lib32/*_preinit.o "$pkgdir"/$_libdir/32/
   mv -v "$pkgdir"/usr/lib/*.spec "$pkgdir"/$_libdir/
   mv -v "$pkgdir"/usr/lib32/*.spec "$pkgdir"/$_libdir/32/
-  mv -v "$pkgdir"/usr/lib/libstdc++* "$pkgdir"/$_libdir/
-  mv -v "$pkgdir"/usr/lib32/libstdc++* "$pkgdir"/$_libdir/32/
+  mv -v "$pkgdir"/usr/lib/libstdc++{,exp,fs}.a "$pkgdir"/$_libdir/
+  mv -v "$pkgdir"/usr/lib32/libstdc++{,exp,fs}.a "$pkgdir"/$_libdir/32/
   mv -v "$pkgdir"/usr/lib/libsupc++.a "$pkgdir"/$_libdir/
   mv -v "$pkgdir"/usr/lib32/libsupc++.a "$pkgdir"/$_libdir/32/
 
