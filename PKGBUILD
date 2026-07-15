@@ -410,8 +410,8 @@ package_gcc() {
   mv -v "$pkgdir"/usr/lib32/libsupc++.a "$pkgdir"/$_libdir/32/
 
   # byte-compile python libraries
-  python -m compileall "$pkgdir"/usr/share/gcc-${pkgver%%+*}/
-  python -O -m compileall "$pkgdir"/usr/share/gcc-${pkgver%%+*}/
+  python -m compileall "$pkgdir"/usr/share/gcc-${pkgver%%.*}/
+  python -O -m compileall "$pkgdir"/usr/share/gcc-${pkgver%%.*}/
 
   _install_runtime_library_exception
 }
