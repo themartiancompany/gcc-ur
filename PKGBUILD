@@ -740,6 +740,7 @@ package_libgcobol() {
     'glibc>=2.27'
     libgcc
     libstdc++
+    libxml2
   )
   provides=(
     libgcobol.so
