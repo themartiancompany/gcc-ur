@@ -116,7 +116,7 @@ build() {
       --libexecdir=/usr/lib
       --mandir=/usr/share/man
       --infodir=/usr/share/info
-      --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues \
+      --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues
       --with-build-config=bootstrap-lto
       --with-gcc-major-version-only
       --with-linker-hash-style=gnu
@@ -249,14 +249,10 @@ package_gcc() {
 
     # prepare internal *.so symlinks to ensure shared linking for those shared libs
     # where we ALSO ship a matching static lib in the internal _libdir
-    ln -srv usr/lib/libatomic.so $_libdir/libatomic.so
-    ln -srv usr/lib/libstdc++.so $_libdir/libstdc++.so
-    ln -srv usr/lib/libgdruntime.so $_libdir/libgdruntime.so
-    ln -srv usr/lib/libgphobos.so $_libdir/libgphobos.so
-    ln -srv usr/lib32/libatomic.so $_libdir/32/libatomic.so
-    ln -srv usr/lib32/libstdc++.so $_libdir/32/libstdc++.so
-    ln -srv usr/lib32/libgdruntime.so $_libdir/32/libgdruntime.so
-    ln -srv usr/lib32/libgphobos.so $_libdir/32/libgphobos.so
+    for _so in libatomic.so libstdc++.so libgdruntime.so libgphobos.so; do
+      ln -srv usr/lib/$_so $_libdir/$_so
+      ln -srv usr/lib32/$_so $_libdir/32/$_so
+    done
 
     _pick gcc-ada usr/bin/gnat{,bind,chop,clean,kr,link,ls,make,name,prep}
     _pick gcc-ada $_libdir/{,32/}ada_target_properties
@@ -369,6 +365,20 @@ package_gcc() {
 
     _pick lto-dump usr/bin/lto-dump
     _pick lto-dump usr/share/man/man1/lto-dump.1
+
+    # move specific files into the internal "_libdir"
+    mv -v usr/lib/libgcc_s{,_asneeded}.so $_libdir/
+    mv -v usr/lib32/libgcc_s{,_asneeded}.so $_libdir/32/
+    mv -v usr/lib/libatomic{,_asneeded}.a usr/lib/libatomic_asneeded.so $_libdir/
+    mv -v usr/lib32/libatomic{,_asneeded}.a usr/lib32/libatomic_asneeded.so $_libdir/32/
+    mv -v usr/lib/*_preinit.o $_libdir/
+    mv -v usr/lib32/*_preinit.o $_libdir/32/
+    mv -v usr/lib/*.spec $_libdir/
+    mv -v usr/lib32/*.spec $_libdir/32/
+    mv -v usr/lib/libstdc++{,exp,fs}.a $_libdir/
+    mv -v usr/lib32/libstdc++{,exp,fs}.a $_libdir/32/
+    mv -v usr/lib/libsupc++.a $_libdir/
+    mv -v usr/lib32/libsupc++.a $_libdir/32/
   )
 
   install -d "$pkgdir"/usr/share/gdb/auto-load/usr/lib
@@ -394,20 +404,6 @@ package_gcc() {
 
   # install the libstdc++ man pages
   make -C $CHOST/libstdc++-v3/doc DESTDIR="$pkgdir" doc-install-man
-
-  # move specific files into the internal "_libdir"
-  mv -v "$pkgdir"/usr/lib/libgcc_s{,_asneeded}.so "$pkgdir"/$_libdir/
-  mv -v "$pkgdir"/usr/lib32/libgcc_s{,_asneeded}.so "$pkgdir"/$_libdir/32/
-  mv -v "$pkgdir"/usr/lib/libatomic* "$pkgdir"/$_libdir/
-  mv -v "$pkgdir"/usr/lib32/libatomic* "$pkgdir"/$_libdir/32/
-  mv -v "$pkgdir"/usr/lib/*_preinit.o "$pkgdir"/$_libdir/
-  mv -v "$pkgdir"/usr/lib32/*_preinit.o "$pkgdir"/$_libdir/32/
-  mv -v "$pkgdir"/usr/lib/*.spec "$pkgdir"/$_libdir/
-  mv -v "$pkgdir"/usr/lib32/*.spec "$pkgdir"/$_libdir/32/
-  mv -v "$pkgdir"/usr/lib/libstdc++{,exp,fs}.a "$pkgdir"/$_libdir/
-  mv -v "$pkgdir"/usr/lib32/libstdc++{,exp,fs}.a "$pkgdir"/$_libdir/32/
-  mv -v "$pkgdir"/usr/lib/libsupc++.a "$pkgdir"/$_libdir/
-  mv -v "$pkgdir"/usr/lib32/libsupc++.a "$pkgdir"/$_libdir/32/
 
   # byte-compile python libraries
   python -m compileall "$pkgdir"/usr/share/gcc-${pkgver%%.*}/
@@ -669,7 +665,7 @@ package_lib32-gcc-libs() {
   )
 
   mv -v $pkgname/* "$pkgdir"
-  rm -v "$pkgdir"/usr/lib32/libstdc++.so.6.0.35-gdb.py
+  rm -v "$pkgdir"/usr/lib32/libstdc++.so.6.*-gdb.py
   _install_runtime_library_exception
 }
 
