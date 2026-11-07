@@ -55,9 +55,22 @@
 #   libtool requires rebuilt
 #   with each new gcc version
 
-_os="$(
-  uname \
-    -o)"
+if [[ ! -v "_os" ]]; then
+  _os="$(
+    uname \
+      -o)"
+fi
+if [[ ! -v "_arch" ]]; then
+  _arch="$(
+    uname \
+      -m)"
+fi
+if [[ ! -v "CHOST" ]]; then
+  if [[ "${_arch}" == "x86_64" ]]; then
+    CHOST="${_arch}-pc-linux-gnu"
+  fi
+fi
+
 if [[ ! -v "_distro" ]]; then
   _distro="dogeos"
 fi
@@ -158,7 +171,7 @@ pkgname=(
   "libubsan"
   "lto-dump"
 )
-pkgrel=1
+pkgrel=3
 pkgdesc='The GNU Compiler Collection'
 arch=(
   "aarch64"
@@ -205,7 +218,7 @@ options=(
   "!emptydirs"
   "!lto"
 )
-_libdir="usr/lib/${_pkg}/${CHOST}/${pkgver%%.*}"
+_libdir="usr/lib/${_pkg}/$CHOST/${pkgver%%.*}"
 _tarname="${_pkg}-${_tag}"
 if [[ "${_git}" == "true" ]]; then
   _http="https://forge.sourceware.org"
