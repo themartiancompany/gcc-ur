@@ -930,268 +930,316 @@ package_gcc-d() {
     -v \
     "${pkgdir}/usr/lib/libg"{"druntime","phobos"}".a" \
     "${pkgdir}/${_libdir}/"
-  mv -v "$pkgdir"/usr/lib32/libg{druntime,phobos}.a "$pkgdir"/$_libdir/32
-  mv -v "$pkgdir"/usr/lib/libgphobos.spec "$pkgdir"/$_libdir/
-  mv -v "$pkgdir"/usr/lib32/libgphobos.spec "$pkgdir"/$_libdir/32
+  mv \
+    -v \
+    "${pkgdir}/usr/lib32/libg"{"druntime","phobos"}".a" \
+    "${pkgdir}/${_libdir}/32"
+  mv \
+    -v \
+    "${pkgdir}/usr/lib/libgphobos.spec" \
+    "${pkgdir}/${_libdir}/"
+  mv \
+    -v \
+    "${pkgdir}/usr/lib32/libgphobos.spec" \
+    "${pkgdir}/${_libdir}/32"
   _install_runtime_library_exception
 }
 
 package_gcc-fortran() {
   pkgdesc='Fortran front-end for GCC'
   depends=(
-    "gcc=$pkgver-$pkgrel"
-    'glibc>=2.27'
-    gmp
-    libgfortran
-    libisl.so
-    libmpc
-    mpfr
-    zlib
-    zstd
+    "${_pkg}=${pkgver}-${pkgrel}"
+    "glibc>=2.27"
+    "gmp"
+    "libgfortran"
+    "libisl.so"
+    "libmpc"
+    "mpfr"
+    "zlib"
+    "zstd"
   )
   provides=(
-    $pkgname-multilib
+    "${pkgname}-multilib"
   )
   replaces=(
-    $pkgname-multilib
+    "${pkgname}-multilib"
   )
-
-  mv -v $pkgname/* "$pkgdir"
-  ln -s gfortran "$pkgdir"/usr/bin/f95
-  mv -v "$pkgdir"/usr/lib/libgfortran.spec "$pkgdir"/$_libdir/
-  mv -v "$pkgdir"/usr/lib32/libgfortran.spec "$pkgdir"/$_libdir/32
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
+  ln \
+    -s \
+    "gfortran" \
+    "${pkgdir}/usr/bin/f95"
+  mv \
+    -v \
+    "${pkgdir}/usr/lib/libgfortran.spec" \
+    "${pkgdir}/${_libdir}/"
+  mv \
+    -v \
+    "${pkgdir}/usr/lib32/libgfortran.spec" \
+    "${pkgdir}/${_libdir}/32"
   _install_runtime_library_exception
 }
 
 package_gcc-gcobol() {
   pkgdesc="Cobol frontend for GCC"
   depends=(
-    "gcc=$pkgver-$pkgrel"
+    "${_pkg}=${pkgver}-${pkgrel}"
     'glibc>=2.27'
-    gmp
-    libgcobol
-    libisl.so
-    libmpc
-    mpfr
-    zlib
-    zstd
+    "gmp"
+    "libgcobol"
+    "libisl.so"
+    "libmpc"
+    "mpfr"
+    "zlib"
+    "zstd"
   )
-
-  mv -v $pkgname/* "$pkgdir"
-  mv -v "$pkgdir"/usr/lib/libgcobol.spec "$pkgdir"/$_libdir/
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
+  mv \
+    -v \
+    "${pkgdir}/usr/lib/libgcobol.spec" \
+    "${pkgdir}/${_libdir}/"
   _install_runtime_library_exception
 }
 
 package_gcc-go() {
   pkgdesc='Go front-end for GCC'
   depends=(
-    "gcc=$pkgver-$pkgrel"
-    'glibc>=2.27'
-    gmp
-    libgo
-    libisl.so
-    libmpc
-    mpfr
-    zlib
-    zstd
+    "${_pkg}=$pkgver-$pkgrel"
+    "glibc>=2.27"
+    "gmp"
+    "libgo"
+    "libisl.so"
+    "libmpc"
+    "mpfr"
+    "zlib"
+    "zstd"
   )
   provides=(
     "go=1.17"
-    $pkgname-multilib
+    "${pkgname}-multilib"
   )
   replaces=(
-    $pkgname-multilib
+    "${pkgname}-multilib"
   )
   conflicts=(
-    go
+    "go"
   )
 
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_gcc-libs() {
   pkgdesc='Runtime libraries shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libasan
-    libatomic
-    libgcc
-    libgfortran
-    libgomp
-    libhwasan
-    liblsan
-    libobjc
-    libquadmath
-    libstdc++
-    libtsan
-    libubsan
+    "glibc>=2.27"
+    "libasan"
+    "libatomic"
+    "lib${_pkg}"
+    "libgfortran"
+    "libgomp"
+    "libhwasan"
+    "liblsan"
+    "libobjc"
+    "libquadmath"
+    "libstdc++"
+    "libtsan"
+    "libubsan"
   )
   provides=(
-    $pkgname-multilib
+    "${pkgname}-multilib"
   )
 }
 
 package_gcc-m2() {
   pkgdesc='Modula-2 frontend for GCC'
   depends=(
-    "gcc=$pkgver-$pkgrel"
-    'glibc>=2.27'
-    gmp
-    libgm2
-    libisl.so
-    libmpc
-    mpfr
-    zlib
-    zstd
+    "${_pkg}=${pkgver}-${pkgrel}"
+    "glibc>=2.27"
+    "gmp"
+    "libgm2"
+    "libisl.so"
+    "libmpc"
+    "mpfr"
+    "zlib"
+    "zstd"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_gcc-objc() {
   pkgdesc='Objective-C front-end for GCC'
   depends=(
-    "gcc=$pkgver-$pkgrel"
-    'glibc>=2.27'
-    gmp
-    libisl.so
-    libmpc
-    libobjc
-    mpfr
-    zlib
-    zstd
+    "${_pkg}=${pkgver}-${pkgrel}"
+    "glibc>=2.27"
+    "gmp"
+    "libisl.so"
+    "libmpc"
+    "libobjc"
+    "mpfr"
+    "zlib"
+    "zstd"
   )
   provides=(
-    $pkgname-multilib
+    "${pkgname}-multilib"
   )
   replaces=(
-    $pkgname-multilib
+    "${pkgname}-multilib"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_gcc-rust() {
   pkgdesc="Rust frontend for GCC"
   depends=(
-    "gcc=$pkgver-$pkgrel"
-    'glibc>=2.27'
-    gmp
-    libisl.so
-    libmpc
-    mpfr
-    zlib
-    zstd
+    "${_pkg}=${pkgver}-${pkgrel}"
+    "glibc>=2.27"
+    "gmp"
+    "libisl.so"
+    "libmpc"
+    "mpfr"
+    "zlib"
+    "zstd"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_lib32-gcc-libs() {
   pkgdesc='32-bit runtime libraries shipped by GCC'
   depends=(
-    'lib32-glibc>=2.27'
+    "lib32-glibc>=2.27"
   )
   provides=(
-    libasan.so
-    libatomic.so
-    libgdruntime.so
-    libgfortran.so
-    libgo.so
-    libgomp.so
-    libgphobos.so
-    libitm.so
-    libobjc.so
-    libquadmath.so
-    libubsan.so
+    "libasan.so"
+    "libatomic.so"
+    "libgdruntime.so"
+    "libgfortran.so"
+    "libgo.so"
+    "libgomp.so"
+    "libgphobos.so"
+    "libitm.so"
+    "libobjc.so"
+    "libquadmath.so"
+    "libubsan.so"
   )
   options=(
-    !emptydirs
+    "!emptydirs"
   )
-
-  mv -v $pkgname/* "$pkgdir"
-  rm -v "$pkgdir"/usr/lib32/libstdc++.so.6.*-gdb.py
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
+  rm \
+    -v \
+    "${pkgdir}/usr/lib32/libstdc++.so.6."*"-gdb.py"
   _install_runtime_library_exception
 }
 
 package_libasan() {
   pkgdesc='Address Sanitizer runtime library shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libgcc
-    libstdc++
+    "glibc>=2.27"
+    "lib${_pkg}"
+    "libstdc++"
   )
   provides=(
-    libasan.so
+    "libasan.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${_pkg}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libatomic() {
   pkgdesc='GNU Atomic library shipped by GCC'
   depends=(
-    'glibc>=2.27'
+    "glibc>=2.27"
   )
   provides=(
-    libatomic.so
+    "libatomic.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libgcc() {
   pkgdesc='Low-level runtime library shipped by GCC'
   depends=(
-    'glibc>=2.27'
+    "glibc>=2.27"
   )
   provides=(
-    libgcc_s.so
+    "lib${_pkg}_s.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libgccjit() {
   pkgdesc="Just-In-Time Compilation with GCC backend"
   depends=(
-    "gcc=$pkgver-$pkgrel"
-    'glibc>=2.27'
-    gmp
-    libisl.so
-    libmpc
-    mpfr
-    zlib
-    zstd
+    "${_pkg}=$pkgver-$pkgrel"
+    "glibc>=2.27"
+    "gmp"
+    "libisl.so"
+    "libmpc"
+    "mpfr"
+    "zlib"
+    "zstd"
   )
   provides=(
-    libgccjit.so
+    "lib${_pkg}jit.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libgcobol() {
   pkgdesc='Cobol runtime libraries shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libgcc
-    libstdc++
-    libxml2
+    "glibc>=2.27"
+    "lib${_pkg}"
+    "libstdc++"
+    "libxml2"
   )
   provides=(
-    libgcobol.so
+    "libgcobol.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
@@ -1199,204 +1247,232 @@ package_libgfortran() {
   pkgdesc='Runtime libraries shipped by GCC'
   depends=(
     'glibc>=2.27'
-    libgcc
+    "lib${_pkg}"
   )
   provides=(
-    libgfortran.so
+    "libgfortran.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libgm2() {
   pkgdesc='Modula-2 runtime libraries shipped by GCC'
   depends=(
-    'glibc>=2.27'
+    "glibc>=2.27"
   )
   provides=(
-    libm2cor.so
-    libm2iso.so
-    libm2log.so
-    libm2min.so
-    libm2pim.so
+    "libm2cor.so"
+    "libm2iso.so"
+    "libm2log.so"
+    "libm2min.so"
+    "libm2pim.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libgo() {
   pkgdesc='Go runtime libraries shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libgcc
+    "glibc>=2.27"
+    "lib${_pkg}"
   )
   provides=(
-    libgo.so
+    "libgo.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libgomp() {
   pkgdesc='OpenMP library shipped by GCC'
   depends=(
-    'glibc>=2.27'
+    "glibc>=2.27"
   )
   provides=(
-    libgomp.so
+    "libgomp.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libgphobos() {
   pkgdesc='D runtime libraries shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libgcc
+    "glibc>=2.27"
+    "lib${_pkg}"
   )
   provides=(
-    libgdruntime.so
-    libgphobos.so
+    "libgdruntime.so"
+    "libgphobos.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libhwasan() {
   pkgdesc='Hardware-assisted Address Sanitizer runtime library shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libgcc
-    libstdc++
+    "glibc>=2.27"
+    "lib${_pkg}"
+    "libstdc++"
   )
   provides=(
-    libhwasan.so
+    "libhwasan.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libitm() {
   pkgdesc='GNU Transactional Memory library shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libgcc
+    "glibc>=2.27"
+    "lib${_pkg}"
   )
   provides=(
-    libitm.so
+    "libitm.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_liblsan() {
   pkgdesc='Leak Sanitizer runtime library shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libgcc
-    libstdc++
+    "glibc>=2.27"
+    "lib${_pkg}"
+    "libstdc++"
   )
   provides=(
-    liblsan.so
+    "liblsan.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libobjc() {
   pkgdesc='Ojective-C runtime libraries shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libgcc
+    "glibc>=2.27"
+    "lib${_pkg}"
   )
   provides=(
-    libobjc.so
+    "libobjc.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libquadmath() {
   pkgdesc='GCC __float128 library'
   depends=(
-    'glibc>=2.27'
-    libgcc
+    "glibc>=2.27"
+    "lib${_pkg}"
   )
   provides=(
-    libquadmath.so
+    "libquadmath.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libstdc++ () {
   pkgdesc='C++ runtime libraries shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libgcc
+    "glibc>=2.27"
+    "lib${_pkg}"
   )
   provides=(
-    libstdc++.so
+    "libstdc++.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libtsan() {
   pkgdesc='Thread Sanitizer runtime library shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libgcc
-    libstdc++
+    "glibc>=2.27"
+    "lib${_pkg}"
+    "libstdc++"
   )
   provides=(
-    libtsan.so
+    "libtsan.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_libubsan() {
   pkgdesc='Undefined Behavior Sanitizer runtime library shipped by GCC'
   depends=(
-    'glibc>=2.27'
-    libgcc
-    libstdc++
+    "glibc>=2.27"
+    "lib${_pkg}"
+    "libstdc++"
   )
   provides=(
-    libubsan.so
+    "libubsan.so"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
 
 package_lto-dump() {
   pkgdesc="Dump link time optimization object files"
   depends=(
-    "gcc=$pkgver-$pkgrel"
-    'glibc>=2.27'
-    gmp
-    libisl.so
-    libmpc
-    mpfr
-    zlib
-    zstd
+    "${_pkg}=${pkgver}-${pkgrel}"
+    "glibc>=2.27"
+    "gmp"
+    "libisl.so"
+    "libmpc"
+    "mpfr"
+    "zlib"
+    "zstd"
   )
-
-  mv -v $pkgname/* "$pkgdir"
+  mv \
+    -v \
+    "${pkgname}/"* \
+    "${pkgdir}"
   _install_runtime_library_exception
 }
