@@ -185,7 +185,7 @@ pkgname=(
   "libubsan"
   "lto-dump"
 )
-pkgrel=3
+pkgrel=4
 pkgdesc='The GNU Compiler Collection'
 arch=(
   "aarch64"
