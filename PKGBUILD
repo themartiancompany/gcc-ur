@@ -89,6 +89,8 @@ if [[ ! -v "_http_bugs" ]]; then
     _http_bugs="https://${_git_service}.com"
   fi
 fi
+_proj=gnu
+_pkg=gcc
 if [[ ! -v "_ns" ]]; then
   if [[ "${_distro}" == "archlinux" ]]; then
     _ns="${_pkg}"
@@ -103,8 +105,6 @@ if [[ ! -v "_ns_bugs" ]]; then
     _ns_bugs="${_ns}"
   fi
 fi
-_proj=gnu
-_pkg=gcc
 if [[ ! -v "_pkg_bugs" ]]; then
   if [[ "${_distro}" == "archlinux" ]]; then
     _pkg_bugs="${_pkg}"
