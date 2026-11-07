@@ -231,6 +231,18 @@ if [[ "${_git}" == "true" ]]; then
   _url="${_http}/${_ns}/${_pkg}"
   _uri="git+${_url}#${_tag_}=${_tag}"
   _src="${_tarname}::${_uri}"
+elif [[ "${_git}" == false ]]; then
+  if [[ "${_git_service}" == "github" ]]; then
+    if [[ "${_tag_name}" == "commit" ]]; then
+      _uri="${_url}/archive/${_commit}.${_archive_format}"
+      _sum="${_github_sum}"
+    fi
+  elif [[ "${_git_service}" == "gitlab" ]]; then
+    if [[ "${_tag_name}" == "commit" ]]; then
+      _uri="${_url}/-/archive/${_tag}/${_tag}.${_archive_format}"
+    fi
+  fi
+  _src="${_tarfile}::${_uri}"
 fi
 source=(
   "${_src}"
