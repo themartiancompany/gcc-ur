@@ -143,6 +143,13 @@ if [[ ! -v "_tag" ]]; then
     _tag="${_commit}"
   elif [[ "${_tag_name}" == "tag" ]]; then
     _tag="${_pkgver}"
+  else
+    _msg=(
+      "Unknown tag name '${_tag_name}'."
+    )
+    echo \
+      "${_msg[*]}" \
+      1>&2
   fi
 fi
 pkgbase="${_pkg}"
@@ -229,7 +236,7 @@ _libdir="usr/lib/${_pkg}/$CHOST/${pkgver%%.*}"
 _tarname="${_pkg}-${_tag}"
 if [[ "${_git}" == "true" ]]; then
   _url="${_http}/${_ns}/${_pkg}"
-  _uri="git+${_url}#${_tag_}=${_tag}"
+  _uri="git+${_url}#${_tag}=${_tag}"
   _src="${_tarname}::${_uri}"
 elif [[ "${_git}" == false ]]; then
   if [[ "${_git_service}" == "github" ]]; then
