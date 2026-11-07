@@ -91,7 +91,7 @@ if [[ ! -v "_http_bugs" ]]; then
 fi
 if [[ ! -v "_ns" ]]; then
   if [[ "${_distro}" == "archlinux" ]]; then
-    _ns="gnu"
+    _ns="${_pkg}"
   elif [[ "${_distro}" == "dogeos" ]]; then
     _ns="themartiancompany"
   fi
@@ -117,6 +117,13 @@ if [[ ! -v "_url_bugs" ]]; then
     _url_bugs="${_http_bugs}/${_ns_bugs}/${_pkg_bugs}/-/issues"
   elif [[ "${_distro}" == "dogeos" ]]; then
     _url_bugs="${_http_bugs}/${_ns_bugs}/${_pkg_bugs}/issues"
+  fi
+fi
+if [[ ! -v "_http" ]]; then
+  if [[ "${_distro}" == "archlinux" ]]; then
+    _http="https://forge.sourceware.org"
+  elif [[ "${_distro}" == "dogeos" ]]; then
+    _http="https://${_git_service}.com"
   fi
 fi
 if [[ ! -v "_docs" ]]; then
@@ -221,8 +228,6 @@ options=(
 _libdir="usr/lib/${_pkg}/$CHOST/${pkgver%%.*}"
 _tarname="${_pkg}-${_tag}"
 if [[ "${_git}" == "true" ]]; then
-  _http="https://forge.sourceware.org"
-  _ns="${_pkg}"
   _url="${_http}/${_ns}/${_pkg}"
   _uri="git+${_url}#${_tag_}=${_tag}"
   _src="${_tarname}::${_uri}"
