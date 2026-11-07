@@ -133,7 +133,7 @@ _pkgver="16.2.1"
 pkgver="${_pkgver}+r23+gd564253eb6c8"
 _commit="d564253eb6c859e266d3cae18e82fb4db9a88316"
 if [[ ! -v "_git" ]]; then
-  _git="false"
+  _git="true"
 fi
 if [[ ! -v "_tag_name" ]]; then
   _tag_name="commit"
